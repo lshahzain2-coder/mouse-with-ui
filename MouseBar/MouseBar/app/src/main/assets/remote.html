@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>TV Remote</title>
+<style>
+  body { margin:0; background:#10182b; color:#fff; font-family:sans-serif; text-align:center; }
+  h1 { font-size:20px; margin:18px 0 10px; font-weight:normal; color:#9fb3c8; }
+  .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; padding:0 18px; max-width:420px; margin:0 auto 18px; }
+  button { height:72px; font-size:20px; color:#fff; background:#344464; border:0; border-radius:16px; }
+  button:active { background:#5a78aa; }
+  .ok { background:#2f6fb0; }
+  #st { min-height:44px; padding:8px 18px; color:#9fb3c8; font-size:15px; }
+</style>
+</head>
+<body>
+<h1>TV Remote</h1>
+<div class="grid">
+  <span></span><button onclick="s('up')">&#9650;</button><span></span>
+  <button onclick="s('left')">&#9664;</button><button class="ok" onclick="s('ok')">OK</button><button onclick="s('right')">&#9654;</button>
+  <span></span><button onclick="s('down')">&#9660;</button><span></span>
+</div>
+<div class="grid">
+  <button onclick="s('back')">Back</button><button onclick="s('home')">Home</button><button onclick="s('menu')">Menu</button>
+  <button onclick="s('voldown')">Vol -</button><button onclick="s('mute')">Mute</button><button onclick="s('volup')">Vol +</button>
+  <span></span><button onclick="s('settings')">Settings</button><span></span>
+</div>
+<div id="st"></div>
+<script>
+var base = location.pathname.replace(/\/?$/, '/');
+function s(c) {
+  if (navigator.vibrate) navigator.vibrate(15);
+  var x = new XMLHttpRequest();
+  x.open('GET', base + 'cmd/' + c);
+  x.onload = function () { document.getElementById('st').textContent = x.responseText; };
+  x.onerror = function () { document.getElementById('st').textContent = 'Cannot reach the TV'; };
+  x.send();
+}
+</script>
+</body>
+</html>
